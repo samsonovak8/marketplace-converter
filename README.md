@@ -11,6 +11,11 @@
 
 ### Установка
 
+локально запустить LLAMA3, туториал https://medium.com/@renjuhere/llama-3-running-locally-in-just-2-steps-e7c63216abe7
+
+создать виртуальное окружение python3 -m venv venv
+активировать source venv/bin/activate
+
 #### Требования
 - Python 3.x
 - pip 
