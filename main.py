@@ -37,15 +37,15 @@ def transform_dict(input_dict):
     return result
 
 
-def fake_main(file_path, output_file):
+def main_data_from_txt(file_path, output_file):
     data_list = read_file_as_list_of_strings(file_path)
     new_cards = make_ozon_cards(data_list)
     with open(output_file, 'a') as f:
         for line in new_cards:
             f.write(f"{line}\n")
 
-def fake_main2():
-    df = transform_dict(pd.read_csv('Вход.csv', encoding='utf-8').to_dict())
+def main_data_from_csv(input_file):
+    df = transform_dict(pd.read_csv(input_file, encoding='utf-8').to_dict())
     with open('out.txt', 'w', encoding='utf-8') as f:
         json.dump(df, f, ensure_ascii=False, indent=4)
     
@@ -58,7 +58,7 @@ def fake_main2():
     with open('out2.txt', 'w', encoding='utf-8') as f:
         f.write(str(text_lines))
     print("going to make_ozon_cards")
-    new_cards = make_ozon_cards([text_lines[0]])
+    new_cards = make_ozon_cards(text_lines)
     with open('new_cards.txt', 'a') as f:
         for line in new_cards:
             f.write(f"{str(line)}\n")
@@ -66,7 +66,7 @@ def fake_main2():
 def main():
 
     # fake_main('init/input.txt', 'init/output.txt')
-    fake_main2()
+    main_data_from_csv('Вход.csv')
 
 
 if __name__ == "__main__":
