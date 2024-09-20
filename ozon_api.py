@@ -19,17 +19,40 @@ class OzonAPI:
                 self.traverse(categories, child)
 
     def build(self):
-        with open('init/twitterData.json', 'r') as file:
-            self.data = pd.DataFrame(json.load(file))
+        url = "https://api-seller.ozon.ru/v1/description-category/tree"
+        self.headers = {"Client-Id": "696499", "Api-Key": self.api_key}
+        json_data = {
+            "language": "EN"  # Change to "RU", "TR", "ZH_HANS", or "DEFAULT" as needed 
+        }
+        response = requests.post(url, headers=headers, json=json_data)
+        # на случай если если слишком нмого делать запросов
+        # with open('init/twitterData.json', 'r') as file:
+        #     self.data = pd.DataFrame(json.load(file))
 
         self.all_ozon_categories = []
         for item in self.data[0][1]['result']:
             self.traverse(self.all_ozon_categories, item)
+        
+        if response.status_code == 200:
+            return("Success:", response.json())
+        return("Error:", response.status_code, response.text), []
+        
 
     def get_attributes(self, type_id, description_category_id):
-        with open('init/twitterData2.json', 'r') as file:
-            attribues = json.load(file)
-        return attribues[1]['result']
+        url = f"https://api-seller.ozon.ru//v1/description-category/attribute"
+        headers = {"Client-Id": "696499", "Api-Key": self.api_key}
+        json_data = {
+            "description_category_id": description_category_id,
+            "language": "EN",
+            "type_id": type_id,
+        }
+        response = requests.post(url, headers=headers, json=json_data)
+        if response.status_code == 200:
+            return("Success:", response.json())
+        return("Error:", response.status_code, response.text)
+        # with open('init/twitterData2.json', 'r') as file:
+        #     attribues = json.load(file)
+        # return attribues[1]['result']
 
     def get_attribute_characteristics(self, attribute_id, description_category_id, last_value_id, limit, type_id):
         url = "https://api-seller.ozon.ru/v1/description-category/attribute/values"
