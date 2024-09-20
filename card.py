@@ -33,15 +33,14 @@ class Card:
 
 
     def set_best_category(self):
-        # print("in set_best_category")
-        # prompt = f"find the most close by sense category from the list of categories: {self.ozon.all_ozon_categories} for item description {self.description}"
-        # with open('init/example_for_llama.txt') as f:
-        #     prompt += f.read()
-        # prompt += f" please for item with desciprtion {self.description} plese return only 1 caterogy_name exactly as it's in the list, please do not add any comments"
-        # not_correct_answer = get_by_prompt(prompt)
-        # print(not_correct_answer)
-        # self.best_category = self.find_category(not_correct_answer, self.ozon.all_ozon_categories)
-        self.best_category = 'Electric Kettle'
+        print("in set_best_category")
+        prompt = f"find the most close by sense category from the list of categories: {self.ozon.all_ozon_categories} for item description {self.description}"
+        with open('init/example_for_llama.txt') as f:
+            prompt += f.read()
+        prompt += f" please for item with desciprtion {self.description} plese return only 1 caterogy_name exactly as it's in the list, please do not add any comments"
+        not_correct_answer = get_by_prompt(prompt)
+        print(not_correct_answer)
+        self.best_category = self.find_category(not_correct_answer, self.ozon.all_ozon_categories)
         print(self.best_category)
         
 
@@ -129,7 +128,7 @@ class Card:
     
 
     def make(self):
-        card = {
+        return {
             "attributes": self.attributes,
             "barcode": self.get_or_empty_string("barcode"),
             "description_category_id": self.description_category_id,
@@ -153,7 +152,5 @@ class Card:
             "weight_unit": self.get_or_empty_string("weight_unit"),
             "width": self.get_or_zero("width")
     }
-        print(card)
-        return card
 
     
